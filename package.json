@@ -3,17 +3,17 @@
     "version": "0.0.0",
     "description": "Dynamic Web Server using Node JS",
     "author": {
-        "name": "",
-        "email": ""
+        "name": "Tara Sothy",
+        "email": "soth8059@stthomas.edu"
     },
     "contributors": [
         {
-            "name": "",
-            "email": ""
+            "name": "Tina Trinh",
+            "email": "trin3630@stthomas.edu"
         },
         {
-            "name": "",
-            "email": ""
+            "name": "Tara Sothy",
+            "email": "soth8059@stthomas.edu"
         }
     ],
     "main": "server.js",
