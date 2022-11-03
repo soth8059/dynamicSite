@@ -44,8 +44,7 @@ app.get('/year/:selected_year', (req, res) => {
 
         res.status(200).type('html').send(template); // <-- you may need to change this
     });
-});
-*/
+});*/
 
 app.listen(port, () => {
     console.log('Now listening on port ' + port);
