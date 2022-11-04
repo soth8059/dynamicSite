@@ -1,0 +1,35 @@
+html, body{
+    text-align: center;
+}
+
+.one-background{
+    background-color: #73cb8c;
+    color: black;
+}
+
+.two-background{
+    background-color: #48a2df;
+    color: black;
+}
+
+ .three-background{
+    background-color: #9a7cee;
+    color: black;
+ }
+
+ .one-text{
+    color: #73cb8c;
+}
+
+.two-text{
+    color: #48a2df;
+}
+
+ .three-text{
+    color: #9a7cee;
+ }
+
+ a{
+    color: inherit;
+    text-align: center;
+ }

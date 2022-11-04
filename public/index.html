@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Foundation Intro</title>
+	<link rel="stylesheet" href="css/foundation.css">
+    <link rel="stylesheet" href="css/water.css">
+</head>
+<body>
+    <div class="off-canvas-wrapper hide-for-medium">
+        <!-- Your menu or Off-canvas content goes here -->
+        <div class="off-canvas position-left" id="offCanvas" data-off-canvas>
+            <!-- Close button -->
+            <button class="close-button" aria-label="Close menu" type="button" data-close>
+                <span aria-hidden="true">&times;</span>
+            </button>
+
+            <!-- Menu -->
+            <ul class="vertical menu">
+                <li class="one-text"><a href="#">Page One</a></li>
+                <li class="two-text"><a href="#">Page Two</a></li>
+                <li class="three-text"><a href="#">Page Three</a></li>
+            </ul>
+        </div>
+        <!-- main content within a `grid-container` -->
+        <div class="grid-container">
+            <!-- `grid-x` represents a row -->
+            <div class="grid-x grid-padding-x">
+                <button type="button" class="cell large-auto button" data-toggle="offCanvas">Open Menu</button>
+            </div>
+            <!-- 
+            <div class="grid-x grid-padding-x">
+                <div class="cell small-6 large-4" style="background-color: #ADD8E6;">Small 6 / Large 4</div>
+                <div class="cell small-6 large-8" style="background-color: #90EE90;">Small 6 / Large 8</div>
+            </div>
+            
+            <div class="grid-x grid-padding-x">
+                <div class="cell large-auto" style="background-color: #ADD8E6;">One</div>
+                <div class="cell large-auto" style="background-color: #90EE90;">Two</div>
+                <div class="cell large-auto" style="background-color: #ADD8E6;">Three</div>
+                <div class="cell large-auto" style="background-color: #90EE90;">Four</div>
+                <div class="cell large-auto" style="background-color: #ADD8E6;">Five</div>
+            </div>
+            -->
+            
+        </div>
+    </div>
+
+    <!-- main content within a `grid-container` -->
+    <div class="grid-container">
+        <div class="grid-x grid-padding-x hide-for-small-only">
+            <div class="cell medium-auto one-background"><a href="one.html">Page One</a></div>
+            <div class="cell medium-auto two-background"><a href="two.html">Page Two</a></div>
+            <div class="cell medium-auto three-background"><a href="three.html">Page Three</a></div>
+
+        </div>
+    </div>
+
+
+    <h1>Water as a Resource</h1>
+
+    <h3>chart 1</h3>
+    <p>some description?</p>
+
+    <h3>chart 2</h3>
+    <p>some description</p>
+
+    <!-- include before closing <body> tag -->
+    <script src="js/vendor.js"></script>
+    <script src="js/foundation.js"></script>
+    <script type="application/javascript">
+        $(document).foundation();
+    </script>
+</body>
+</html>
