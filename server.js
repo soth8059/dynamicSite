@@ -29,7 +29,7 @@ app.use(express.static(public_dir));
 
 
 // GET request handler for home page '/' (redirect to desired route)
-app.get('precipitation/:yr', (req, res) => {
+app.get('/precipitation/:yr', (req, res) => {
     console.log(req.params.yr);
     fs.readFile(path.join(template_dir, 'precipitation.html'), (err, template) => {
         // modify `template` and send response
@@ -62,7 +62,7 @@ app.get('precipitation/:yr', (req, res) => {
     });
 });
 
-app.get('capita/:yr', (req, res) => {
+app.get('/capita/:yr', (req, res) => {
     console.log(req.params.yr);
     fs.readFile(path.join(template_dir, 'capita.html'), (err, template) => {
         // modify `template` and send response
@@ -94,7 +94,7 @@ app.get('capita/:yr', (req, res) => {
     });
 });
 
-app.get('renewable/:yr', (req, res) => {
+app.get('/renewable/:yr', (req, res) => {
     console.log(req.params.yr);
     fs.readFile(path.join(template_dir, 'renewable.html'), (err, template) => {
         // modify `template` and send response
