@@ -34,7 +34,7 @@ app.get('/precipitation/:yr', (req, res) => {
     fs.readFile(path.join(template_dir, 'precipitation.html'), (err, template) => {
         // modify `template` and send response
         // this will require a query to the SQL database
-        let year = parse.INTEGER(req.params.yr);
+        let year = parseInt(req.params.yr);
         let nri = 'SELECT * from variable_4 WHERE year==?';
         let unitNRI = 'SELECT unit from Variables WHERE name=="National Rainfall Index (NRI)"';
         let avg = 'SELECT * from variable_3 WHERE year==?';
@@ -76,8 +76,8 @@ app.get('/capita/:yr', (req, res) => {
         let renew = 'SELECT * from variable_8 WHERE year==?';
         let unitNEW = 'SELECT unit from Variables WHERE name=="Total renewable water resources per capita"';
 
-        
-        let year = parse.INTEGER(req.params.yr);
+
+        let year = parseInt(req.params.yr);
         db.all(query, [year], (err, rows) => {
             console.log(err);
             console.log(rows);
@@ -113,7 +113,7 @@ app.get('/renewable/:yr', (req, res) => {
         let unitS = 'SELECT unit from Variables WHERE name=="Total renewable surface water"';
         let water = 'SELECT * from variable_7 WHERE year==?';
         let unitW = 'SELECT unit from Variables WHERE name=="Total renewable water resources"';
-        let year = parse.INTEGER(req.params.yr);
+        let year = parseInt(req.params.yr);
         db.all(query, [year], (err, rows) => {
             console.log(err);
             console.log(rows);
