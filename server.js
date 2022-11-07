@@ -34,17 +34,19 @@ app.get('/precipitation/:yr', (req, res) => {
     fs.readFile(path.join(template_dir, 'precipitation.html'), (err, template) => {
         // modify `template` and send response
         // this will require a query to the SQL database
-        let query = 'SELECT Manufacturers.name AS mfr, Cereals.name, Cereals.calories, Cereals.carbohydrates, Cereals.protein, Cereals.fat,\
-        Cereals.rating FROM Variables INNER JOIN Manufacturers ON Manufacturers.id = Cereals.mfr WHERE Cereals.mfr = ?';
-        let year = req.params.yr;
+        let year = parse.INTEGER(req.params.yr);
+        let nri = 'SELECT * from variable_4 WHERE year==?';
+        let unitNRI = 'SELECT unit from Variables WHERE name=="National Rainfall Index (NRI)"';
+        let avg = 'SELECT * from variable_3 WHERE year==?';
+        let unitAVG = 'SELECT unit from Variables WHERE name=="Long-term average annual precipitation in depth"';
         db.all(query, year, (err, rows) => {
             console.log(err);
             console.log(rows);
             let content = template.toString().replace("%%YEAR%%", year);
             content = content.toString().replace("%%YEAR%%", year);
             content = content.toString().replace("%%YEAR%%", year);
-            content = content.replace("%%NRI_VALUE%%", query.value);
-            content = content.replace("%%AVGTEMP_VALUE%%", query.value);
+            content = content.replace("%%NRI_VALUE%%", nri.value + unitNRI);
+            content = content.replace("%%AVGTEMP_VALUE%%", avg.value + unitAVG);
             let minus = year -1;
             let plus = year +1;
             if(minus < 1961){
@@ -67,18 +69,24 @@ app.get('/capita/:yr', (req, res) => {
     fs.readFile(path.join(template_dir, 'capita.html'), (err, template) => {
         // modify `template` and send response
         // this will require a query to the SQL database
-        let query = 'SELECT Manufacturers.name AS mfr, Cereals.name, Cereals.calories, Cereals.carbohydrates, Cereals.protein, Cereals.fat,\
-        Cereals.rating FROM Variables INNER JOIN Manufacturers ON Manufacturers.id = Cereals.mfr WHERE Cereals.mfr = ?';
-        let year = req.params.yr;
+        let dam = 'SELECT * from variable_1 WHERE year==?';
+        let unitDAM = 'SELECT unit from Variables WHERE name=="Dam capacity per capita"';
+        let ratio = 'SELECT * from variable_2 WHERE year==?';
+        let unitRATIO = 'SELECT unit from Variables WHERE name=="Dependency ratio"';
+        let renew = 'SELECT * from variable_8 WHERE year==?';
+        let unitNEW = 'SELECT unit from Variables WHERE name=="Total renewable water resources per capita"';
+
+        
+        let year = parse.INTEGER(req.params.yr);
         db.all(query, [year], (err, rows) => {
             console.log(err);
             console.log(rows);
             let content = template.toString().replace("%%YEAR%%", year);
-            content = content.replace("%%DAM_VALUE%%", rows[0].value);
+            content = content.replace("%%DAM_VALUE%%", dam.value + unitDAM);
             content = content.replace("%%YEAR%%", year);
-            content = content.replace("%%DEPENDRATIO_VALUE%%", query.value);
+            content = content.replace("%%DEPENDRATIO_VALUE%%", ratio.value + unitRATIO);
             content = content.replace("%%YEAR%%", year);
-            content = content.replace("%%RENEWABLE_WATER_VALUE%%", info);
+            content = content.replace("%%RENEWABLE_WATER_VALUE%%", renew.value + unitNEW);
             let minus = year -1;
             let plus = year +1;
             if(minus < 1961){
@@ -99,18 +107,22 @@ app.get('/renewable/:yr', (req, res) => {
     fs.readFile(path.join(template_dir, 'renewable.html'), (err, template) => {
         // modify `template` and send response
         // this will require a query to the SQL database
-        let query = 'SELECT Manufacturers.name AS mfr, Cereals.name, Cereals.calories, Cereals.carbohydrates, Cereals.protein, Cereals.fat,\
-        Cereals.rating FROM Variables INNER JOIN Manufacturers ON Manufacturers.id = Cereals.mfr WHERE Cereals.mfr = ?';
-        let year = req.params.yr;
+        let ground = 'SELECT * from variable_5 WHERE year==?';
+        let unitG = 'SELECT unit from Variables WHERE name=="Total renewable groundwater"';
+        let surface = 'SELECT * from variable_6 WHERE year==?';
+        let unitS = 'SELECT unit from Variables WHERE name=="Total renewable surface water"';
+        let water = 'SELECT * from variable_7 WHERE year==?';
+        let unitW = 'SELECT unit from Variables WHERE name=="Total renewable water resources"';
+        let year = parse.INTEGER(req.params.yr);
         db.all(query, [year], (err, rows) => {
             console.log(err);
             console.log(rows);
             let content = template.toString().replace("%%YEAR%%", year);
-            content = content.replace("%%GROUND_WATER_VALUE%%", rows[0].value);
+            content = content.replace("%%GROUND_WATER_VALUE%%", ground.value + unitG);
             content = content.replace("%%YEAR%%", year);
-            content = content.replace("%%SURFACE_WATER_VALUE%%", query.value);
+            content = content.replace("%%SURFACE_WATER_VALUE%%", surface.value + unitS);
             content = content.replace("%%YEAR%%", year);
-            content = content.replace("%%WATER_RESOURCES_VALUE%%", info);
+            content = content.replace("%%WATER_RESOURCES_VALUE%%", water.value + unitW);
             let minus = year -1;
             let plus = year +1;
             if(minus < 1961){
