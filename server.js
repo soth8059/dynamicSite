@@ -27,7 +27,6 @@ let db = new sqlite3.Database(db_filename, sqlite3.OPEN_READONLY, (err) => {
 // Serve static files from 'public' directory
 app.use(express.static(public_dir));
 
-
 // GET request handler for home page '/' (redirect to desired route)
 app.get('/precipitation/:yr', (req, res) => {
     console.log(req.params.yr);
@@ -35,32 +34,53 @@ app.get('/precipitation/:yr', (req, res) => {
         // modify `template` and send response
         // this will require a query to the SQL database
         let year = parseInt(req.params.yr);
-        let nri = 'SELECT * from variable_4 WHERE year==?';
-        let unitNRI = 'SELECT unit from Variables WHERE name=="National Rainfall Index (NRI)"';
-        let avg = 'SELECT * from variable_3 WHERE year==?';
-        let unitAVG = 'SELECT unit from Variables WHERE name=="Long-term average annual precipitation in depth"';
-        db.all(query, year, (err, rows) => {
-            console.log(err);
-            console.log(rows);
-            let content = template.toString().replace("%%YEAR%%", year);
-            content = content.toString().replace("%%YEAR%%", year);
-            content = content.toString().replace("%%YEAR%%", year);
-            content = content.replace("%%NRI_VALUE%%", nri.value + unitNRI);
-            content = content.replace("%%AVGTEMP_VALUE%%", avg.value + unitAVG);
-            let minus = year -1;
-            let plus = year +1;
-            if(minus < 1961){
-                minus = year+58;
-            }
-            if(plus > 2019){
-                plus = year-58;
-            }
-            content = content.replace("%%MINUS%%", minus);
-            content = content.replace("%%PLUS%%", plus);
+        let nri = 'SELECT * from variable_4 WHERE year==?;';
+        let unitNRI = 'SELECT unit from Variables WHERE name=="National Rainfall Index (NRI)";';
+        let avg = 'SELECT * from variable_3 WHERE year==?;';
+        let unitAVG = 'SELECT unit from Variables WHERE name=="Long-term average annual precipitation in depth";';
 
-            //content = content.replace("%%IMG%%", "/images/" + req.params.mfr.toUpperCase() + "_logo.png");
-            res.status(200).type('html').send(content);
-        });
+        let content = template.toString().replace("%%YEAR%%", year);
+        content = content.replace("%%YEAR%%", year);
+        content = content.replace("%%YEAR%%", year);
+
+        // NOTE: NRI only has data from 1965 - 2019
+
+        let minus = year -1;
+        let plus = year +1;
+        if(minus < 1965){
+            minus = 2019;
+        }
+        if(plus > 2019){
+            plus = 1965;
+        }
+        content = content.replace("%%MINUS%%", minus);
+        content = content.replace("%%PLUS%%", plus);
+
+        db.all(nri, year, (err, rows) => {
+            // replace NRI information
+            console.log(rows);
+            content = content.replace("%%NRI_VALUE%%", rows[0].value);
+
+            db.all(unitNRI, (err, rows) => {
+                // replace unit NRI information
+                console.log(rows);
+                content = content.replace("%%NRI_UNIT%%", rows[0].unit);
+
+                db.all(avg, year, (err, rows) => {
+                    // replace avg information
+                    console.log(rows);
+                    content = content.replace("%%AVGTEMP_VALUE%%", rows[0].value);
+
+                    db.all(unitAVG, (err, rows) => {
+                        // replace unit AVG information
+                        console.log(rows);
+                        content = content.replace("%%AVGTEMP_UNIT%%", rows[0].unit);
+
+                        res.status(200).type('html').send(content);
+                    })
+                })
+            })
+        })
     });
 });
 
@@ -75,7 +95,6 @@ app.get('/capita/:yr', (req, res) => {
         let unitRATIO = 'SELECT unit from Variables WHERE name=="Dependency ratio"';
         let renew = 'SELECT * from variable_8 WHERE year==?';
         let unitNEW = 'SELECT unit from Variables WHERE name=="Total renewable water resources per capita"';
-
 
         let year = parseInt(req.params.yr);
         db.all(query, [year], (err, rows) => {
