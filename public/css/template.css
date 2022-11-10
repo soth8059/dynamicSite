@@ -1,0 +1,31 @@
+body {
+    text-align: left;
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h1, .one-buttons, .two-buttons, .three-buttons {
+    text-align: center;
+}
+
+.one-title {
+    color: #017d24;
+}
+
+.two-title {
+    color: #066eb3;
+}
+
+.three-title {
+    color: #532dbc;
+}
+
+button{
+    border: 0px;
+    padding: 1rem;
+}
+
+button:hover {
+    border: 1px solid black;
+}

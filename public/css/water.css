@@ -2,17 +2,17 @@ html, body{
     text-align: center;
 }
 
-.one-background{
+.one-background, .one-buttons button{
     background-color: #73cb8c;
     color: black;
 }
 
-.two-background{
+.two-background, .two-buttons button{
     background-color: #48a2df;
     color: black;
 }
 
- .three-background{
+ .three-background, .three-buttons button{
     background-color: #9a7cee;
     color: black;
  }
@@ -33,3 +33,7 @@ html, body{
     color: inherit;
     text-align: center;
  }
+
+a:hover {
+    color: blue;
+}
