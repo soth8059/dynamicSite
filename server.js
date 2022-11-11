@@ -47,7 +47,7 @@ app.get('/precipitation/:yr', (req, res) => {
             content = content.replace("%%YEAR%%", year);
             content = content.replace("%%NRI_VALUE%%", rows[0].nri);
             content = content.replace("%%AVGTEMP_VALUE%%", rows[0].avg);
-            
+
             db.all(unitNRI, (err, rows) => {
                 console.log(err);
                 console.log(rows);
@@ -72,6 +72,7 @@ app.get('/precipitation/:yr', (req, res) => {
             }
             content = content.replace("%%MINUS%%", minus);
             content = content.replace("%%PLUS%%", plus);
+            res.status(200).type('html').send(content);
         });
     });
 });
@@ -86,7 +87,7 @@ app.get('/capita/:yr', (req, res) => {
         let unitRATIO = 'SELECT unit from Variables WHERE name=="Dependency ratio"';
         let unitRENEW = 'SELECT unit from Variables WHERE name=="Total renewable water resources per capita"';
 
-        
+
         let year = parseInt(req.params.yr);
         db.all(values, [year], (err, rows) => {
             console.log(err);
@@ -114,7 +115,7 @@ app.get('/capita/:yr', (req, res) => {
                     db.all(unitRENEW, (err, rows) => {
                         console.log(err);
                         console.log(rows);
-    
+
                         content = content.replace("%%WATER_CAPITA_UNIT%%", rows[0].unit);
                     })
                 });
@@ -171,7 +172,7 @@ app.get('/renewable/:yr', (req, res) => {
                     db.all(unitT, (err, rows) => {
                         console.log(err);
                         console.log(rows);
-    
+
                         content = content.replace("%%WATERRESOURCES_UNIT%%", rows[0].unit);
                     })
                 })
@@ -207,3 +208,17 @@ app.get('/year/:selected_year', (req, res) => {
 app.listen(port, () => {
     console.log('Now listening on port ' + port);
 });
+
+getWaterResourcesData();
+
+function getWaterResourcesData() {
+    let query = "SELECT value FROM variable_8;";
+    let data = [];
+    db.all(query, (err, rows) => {
+        console.log(rows);
+        for (let i=0; i<rows.length; i++) {
+            data.push(rows[i].value);
+        }
+        console.log(data);
+    })
+}

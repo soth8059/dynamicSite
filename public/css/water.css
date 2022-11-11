@@ -37,3 +37,8 @@ html, body{
 a:hover {
     color: blue;
 }
+
+#myChart {
+    display: block;
+    box-sizing: border-box;
+}
