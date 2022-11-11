@@ -4,21 +4,26 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>US Precipitation</title>
-	<link rel="stylesheet" href="css/water.css">
+	<link rel="stylesheet" href="/css/water.css">
+	<link rel="stylesheet" href="/css/template.css">
   </head>
   <body>
-	<a href="index.html">Home</a>
-    <h1>US Precipitation in %%YEAR%%</h1>
+    <a id="home" href="/">Home Page</a>
+      <h1 class="one-background">US Precipitation in %%YEAR%%</h1>
 
-		<h2>National Rainfall Index (NRI)</h2>
-		<p><strong>Definition: </strong> A national rainfall index (NRI) is defined as the national average of the total annual precipitation weighted by its long-term average. In other words, it is a calculation of how much precipitation has fallen over a specific area. It is commonly used by governments, insurance companies and meteorologists.</p>
-		<p>NRI in %%YEAR%% is %%NRI_VALUE%% </p>
+    <h2 class="one-title">National Rainfall Index (NRI)</h2>
+    <p><strong>Definition: </strong> An indicator, developed by The Food and Agriculture Organization (FAO), which represents the quality of the crop growing season. The NRI yearly results take into consideration the precipitation that year, the average precipitation over the period 1986-2000, the seasonality of the main crop-growing season (distinguishing between northern and southern hemispheres), and what areas of the country are wetter.</p>
+    <p>NRI in <strong>%%YEAR%%</strong> is <strong>%%NRI_VALUE%% %%NRI_UNIT%%</strong></p>
 
-		<h2>Long-term Average Precipitation</h2>
-		<p><strong>Definition: </strong> Long-term Average Precipitation is ...</p>
-		<p>Average Precipitation in %%YEAR%% is %%AVGTEMP_VALUE%%</p>
+    <h2 class="one-title">Long-term Average Annual Precipitation In Depth</h2>
+    <p><strong>Definition: </strong> Long-term average (over space and time) of annual endogenous precipitation (produced in the country) in depth.</p>
+    <p>Average annual precipitation in <strong>%%YEAR%%</strong> is <strong>%%AVGTEMP_VALUE%% %%AVGTEMP_UNIT%%</strong></p>
 
-		<a href="#"><button>%%MINUS%%</button></a>
-		<a href="#"><button>%%PLUS%%</button></a>
-	</body>
+    <img src="#" alt="dynamic image"><br><br>
+
+    <div class="one-buttons" >
+      <a href="/precipitation/%%MINUS%%"><button>Previous</button></a>
+      <a href="/precipitation/%%PLUS%%"><button>Next</button></a>
+    </div>
+  </body>
 </html>

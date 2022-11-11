@@ -35,11 +35,11 @@ app.get('/precipitation/:yr', (req, res) => {
         // modify `template` and send response
         // this will require a query to the SQL database
         let year = parseInt(req.params.yr);
-        let nri = 'SELECT * from variable_4 WHERE year==?';
+        let values = 'SELECT variable_4.value as nri, variable_3.value as avg FROM variable_4 INNER JOIN variable_3 ON variable_4.year==variable_3.year WHERE variable_4.year==?';
         let unitNRI = 'SELECT unit from Variables WHERE name=="National Rainfall Index (NRI)"';
-        let avg = 'SELECT * from variable_3 WHERE year==?';
         let unitAVG = 'SELECT unit from Variables WHERE name=="Long-term average annual precipitation in depth"';
-        db.all(nri, unitNRI, avg, unitAVG, year, (err, rows) => {
+        db.all(values, year, (err, rows) => {
+            //unitNRI, avg, unitAVG,
             console.log(err);
             console.log(rows);
             console.log(template);
@@ -47,8 +47,23 @@ app.get('/precipitation/:yr', (req, res) => {
             content = content.replace("%%YEAR%%", year);
             content = content.replace("%%YEAR%%", year);
             content = content.replace("%%YEAR%%", year);
-            content = content.replace("%%NRI_VALUE%%", nri.value + unitNRI);
-            content = content.replace("%%AVGTEMP_VALUE%%", avg.value + unitAVG);
+            content = content.replace("%%NRI_VALUE%%", rows[0].nri);
+            content = content.replace("%%AVGTEMP_VALUE%%", rows[0].avg);
+            
+            db.all(unitNRI, (err, rows) => {
+                console.log(err);
+                console.log(rows);
+
+                content = content.replace("%%NRI_UNIT%%", rows[0].unit);
+
+                db.all(unitAVG, (err, rows) => {
+                    console.log(err);
+                    console.log(rows);
+
+                    content = content.replace("%%AVGTEMP_UNIT%%", rows[0].unit);
+                })
+            })
+            
             let minus = year -1;
             let plus = year +1;
             if(minus < 1961){
@@ -71,24 +86,45 @@ app.get('/capita/:yr', (req, res) => {
     fs.readFile(path.join(template_dir, 'capita.html'), (err, template) => {
         // modify `template` and send response
         // this will require a query to the SQL database
-        let dam = 'SELECT * from variable_1 WHERE year==?';
+        let values = 'SELECT variable_1.value as dam, variable_2.value as ratio, variable_8.value as renewable FROM variable_1 INNER JOIN variable_2 ON variable_1.year==variable_2.year INNER JOIN variable_8 on variable_2.year==variable_8.year WHERE variable_1.year==?';
         let unitDAM = 'SELECT unit from Variables WHERE name=="Dam capacity per capita"';
-        let ratio = 'SELECT * from variable_2 WHERE year==?';
         let unitRATIO = 'SELECT unit from Variables WHERE name=="Dependency ratio"';
-        let renew = 'SELECT * from variable_8 WHERE year==?';
-        let unitNEW = 'SELECT unit from Variables WHERE name=="Total renewable water resources per capita"';
+        let unitRENEW = 'SELECT unit from Variables WHERE name=="Total renewable water resources per capita"';
 
         
         let year = parseInt(req.params.yr);
-        db.all(query, [year], (err, rows) => {
+        db.all(values, [year], (err, rows) => {
             console.log(err);
             console.log(rows);
             let content = template.toString().replace("%%YEAR%%", year);
-            content = content.replace("%%DAM_VALUE%%", dam.value + unitDAM);
             content = content.replace("%%YEAR%%", year);
-            content = content.replace("%%DEPENDRATIO_VALUE%%", ratio.value + unitRATIO);
+            content = content.replace("%%DAM_VALUE%%", values.dam);
             content = content.replace("%%YEAR%%", year);
-            content = content.replace("%%RENEWABLE_WATER_VALUE%%", renew.value + unitNEW);
+            content = content.replace("%%DEPENDRATIO_VALUE%%", values.ratio);
+            content = content.replace("%%YEAR%%", year);
+            content = content.replace("%%WATER_CAPITA_VALUE%%", values.renewable);
+
+            db.all(unitDAM, (err, rows) => {
+                console.log(err);
+                console.log(rows);
+
+                content = content.replace("%%DAM_UNIT%%", rows[0].unit);
+
+                db.all(unitRATIO, (err, rows) => {
+                    console.log(err);
+                    console.log(rows);
+
+                    content = content.replace("%%DEPENDRATIO_UNIT%%", rows[0].unit);
+
+                    db.all(unitRENEW, (err, rows) => {
+                        console.log(err);
+                        console.log(rows);
+    
+                        content = content.replace("%%WATER_CAPITA_UNIT%%", rows[0].unit);
+                    })
+                })
+            })
+
             let minus = year -1;
             let plus = year +1;
             if(minus < 1961){
@@ -109,22 +145,43 @@ app.get('/renewable/:yr', (req, res) => {
     fs.readFile(path.join(template_dir, 'renewable.html'), (err, template) => {
         // modify `template` and send response
         // this will require a query to the SQL database
-        let ground = 'SELECT * from variable_5 WHERE year==?';
+        let values = 'SELECT variable_5.value as ground, variable_6.value as surface, variable_7.value as total FROM variable_5 INNER JOIN variable_6 ON variable_5.year==variable_6.year INNER JOIN variable_7 on variable_6.year==variable_7.year WHERE variable_5.year==?';
         let unitG = 'SELECT unit from Variables WHERE name=="Total renewable groundwater"';
-        let surface = 'SELECT * from variable_6 WHERE year==?';
         let unitS = 'SELECT unit from Variables WHERE name=="Total renewable surface water"';
-        let water = 'SELECT * from variable_7 WHERE year==?';
-        let unitW = 'SELECT unit from Variables WHERE name=="Total renewable water resources"';
+        let unitT = 'SELECT unit from Variables WHERE name=="Total renewable water resources"';
         let year = parseInt(req.params.yr);
-        db.all(query, [year], (err, rows) => {
+        db.all(values, [year], (err, rows) => {
             console.log(err);
             console.log(rows);
             let content = template.toString().replace("%%YEAR%%", year);
-            content = content.replace("%%GROUND_WATER_VALUE%%", ground.value + unitG);
             content = content.replace("%%YEAR%%", year);
-            content = content.replace("%%SURFACE_WATER_VALUE%%", surface.value + unitS);
+            content = content.replace("%%GROUNDWATER_VALUE%%", rows[0].ground);
             content = content.replace("%%YEAR%%", year);
-            content = content.replace("%%WATER_RESOURCES_VALUE%%", water.value + unitW);
+            content = content.replace("%%SURFACEWATER_VALUE%%", rows[0].surface);
+            content = content.replace("%%YEAR%%", year);
+            content = content.replace("%%WATERRESOURCES_VALUE%%", rows[0].total);
+
+            db.all(unitG, (err, rows) => {
+                console.log(err);
+                console.log(rows);
+
+                content = content.replace("%%GROUNDWATER_UNIT%%", rows[0].unit);
+
+                db.all(unitS, (err, rows) => {
+                    console.log(err);
+                    console.log(rows);
+
+                    content = content.replace("%%SURFACEWATER_UNIT%%", rows[0].unit);
+
+                    db.all(unitT, (err, rows) => {
+                        console.log(err);
+                        console.log(rows);
+    
+                        content = content.replace("%%WATERRESOURCES_UNIT%%", rows[0].unit);
+                    })
+                })
+            })
+
             let minus = year -1;
             let plus = year +1;
             if(minus < 1961){
