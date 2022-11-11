@@ -27,6 +27,23 @@ let db = new sqlite3.Database(db_filename, sqlite3.OPEN_READONLY, (err) => {
 // Serve static files from 'public' directory
 app.use(express.static(public_dir));
 
+app.get('/', (req, res) => {
+    fs.readFile(path.join(template_dir, 'index.html'), (err, template) => {
+        let query = "SELECT value FROM variable_8;";
+        let data = [];
+        db.all(query, (err, rows) => {
+            // console.log(rows);
+            for (let i=0; i<rows.length; i++) {
+                data.push(rows[i].value);
+            }
+            //console.log(data);
+            let response = template.toString();
+            response = response.replace("%%DATA%%", data.toString());
+            res.status(200).type('html').send(response);
+        })
+    })
+})
+
 // GET request handler for home page '/' (redirect to desired route)
 app.get('/precipitation/:yr', (req, res) => {
     console.log(req.params.yr);
