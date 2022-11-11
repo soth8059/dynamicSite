@@ -64,11 +64,11 @@ app.get('/precipitation/:yr', (req, res) => {
             // NOTE: NRI only has data from 1965 - 2019
             let minus = year -1;
             let plus = year +1;
-            if(minus < 1961){
-                minus = year+58;
+            if(minus < 1965){
+                minus = year+54;
             }
             if(plus > 2019){
-                plus = year-58;
+                plus = year-54;
             }
             content = content.replace("%%MINUS%%", minus);
             content = content.replace("%%PLUS%%", plus);
