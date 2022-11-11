@@ -72,32 +72,7 @@ app.get('/precipitation/:yr', (req, res) => {
             }
             content = content.replace("%%MINUS%%", minus);
             content = content.replace("%%PLUS%%", plus);
-
-        db.all(nri, year, (err, rows) => {
-            // replace NRI information
-            console.log(rows);
-            content = content.replace("%%NRI_VALUE%%", rows[0].value);
-
-            db.all(unitNRI, (err, rows) => {
-                // replace unit NRI information
-                console.log(rows);
-                content = content.replace("%%NRI_UNIT%%", rows[0].unit);
-
-                db.all(avg, year, (err, rows) => {
-                    // replace avg information
-                    console.log(rows);
-                    content = content.replace("%%AVGTEMP_VALUE%%", rows[0].value);
-
-                    db.all(unitAVG, (err, rows) => {
-                        // replace unit AVG information
-                        console.log(rows);
-                        content = content.replace("%%AVGTEMP_UNIT%%", rows[0].unit);
-
-                        res.status(200).type('html').send(content);
-                    })
-                })
-            })
-        })
+        });
     });
 });
 
@@ -142,8 +117,8 @@ app.get('/capita/:yr', (req, res) => {
     
                         content = content.replace("%%WATER_CAPITA_UNIT%%", rows[0].unit);
                     })
-                })
-            })
+                });
+            });
 
             let minus = year -1;
             let plus = year +1;
