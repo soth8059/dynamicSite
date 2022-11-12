@@ -38,7 +38,9 @@ a:hover {
     color: blue;
 }
 
-#myChart {
+.chart-container {
     display: block;
-    box-sizing: border-box;
+    float: left;
+    position: relative;
+    width: 50%;
 }

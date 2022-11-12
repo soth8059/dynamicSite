@@ -29,17 +29,73 @@ app.use(express.static(public_dir));
 
 app.get('/', (req, res) => {
     fs.readFile(path.join(template_dir, 'index.html'), (err, template) => {
-        let query = "SELECT value FROM variable_8;";
         let data = [];
-        db.all(query, (err, rows) => {
-            // console.log(rows);
+        let response = template.toString();
+
+        db.all("SELECT value FROM variable_1;", (err, rows) => {
             for (let i=0; i<rows.length; i++) {
                 data.push(rows[i].value);
             }
-            //console.log(data);
-            let response = template.toString();
-            response = response.replace("%%DATA%%", data.toString());
-            res.status(200).type('html').send(response);
+
+            response = response.replace("%%DATA_1%%", data.toString());
+            data = [];
+
+            db.all("SELECT value FROM variable_2;", (err, rows) => {
+                for (let i=0; i<rows.length; i++) {
+                    data.push(rows[i].value);
+                }
+                response = response.replace("%%DATA_2%%", data.toString());
+                data = [];
+
+                db.all("SELECT value FROM variable_3;", (err, rows) => {
+                    for (let i=0; i<rows.length; i++) {
+                        data.push(rows[i].value);
+                    }
+                    response = response.replace("%%DATA_3%%", data.toString());
+                    data = [];
+
+                    db.all("SELECT value FROM variable_4;", (err, rows) => {
+                        for (let i=0; i<rows.length; i++) {
+                            data.push(rows[i].value);
+                        }
+                        response = response.replace("%%DATA_4%%", data.toString());
+                        data = [];
+
+                        db.all("SELECT value FROM variable_5;", (err, rows) => {
+                            for (let i=0; i<rows.length; i++) {
+                                data.push(rows[i].value);
+                            }
+                            response = response.replace("%%DATA_5%%", data.toString());
+                            data = [];
+
+                            db.all("SELECT value FROM variable_6;", (err, rows) => {
+                                for (let i=0; i<rows.length; i++) {
+                                    data.push(rows[i].value);
+                                }
+                                response = response.replace("%%DATA_6%%", data.toString());
+                                data = [];
+
+                                db.all("SELECT value FROM variable_7;", (err, rows) => {
+                                    for (let i=0; i<rows.length; i++) {
+                                        data.push(rows[i].value);
+                                    }
+                                    response = response.replace("%%DATA_7%%", data.toString());
+                                    data = [];
+
+
+                                    db.all("SELECT value FROM variable_8;", (err, rows) => {
+                                        for (let i=0; i<rows.length; i++) {
+                                            data.push(rows[i].value);
+                                        }
+                                        response = response.replace("%%DATA_8%%", data.toString());
+                                        res.status(200).type('html').send(response);
+                                    })
+                                })
+                            })
+                        })
+                    })
+                })
+            })
         })
     })
 })
@@ -223,18 +279,5 @@ app.get('/year/:selected_year', (req, res) => {
 
 app.listen(port, () => {
     console.log('Now listening on port ' + port);
+    console.log('http://localhost:8000/');
 });
-
-getWaterResourcesData();
-
-function getWaterResourcesData() {
-    let query = "SELECT value FROM variable_8;";
-    let data = [];
-    db.all(query, (err, rows) => {
-        console.log(rows);
-        for (let i=0; i<rows.length; i++) {
-            data.push(rows[i].value);
-        }
-        console.log(data);
-    })
-}

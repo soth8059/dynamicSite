@@ -44,13 +44,38 @@
     </div>
 
 
-    <h1>Water as a Resource</h1>
+    <h1>Water Resources</h1>
+    <div class="chart-container">
+        <canvas id="chart-1" width="4" height="1"></canvas>
+    </div>
 
-    <h5>Water Resources Per Capita 1961 - 2019</h5>
-    <canvas id="myChart" width="4" height="1"></canvas>
+    <div class="chart-container">
+        <canvas id="chart-2" width="4" height="1"></canvas>
+    </div>
 
-    <h3>chart 2</h3>
-    <p>some description</p>
+    <div class="chart-container">
+        <canvas id="chart-3" width="4" height="1"></canvas>
+    </div>
+
+    <div class="chart-container">
+        <canvas id="chart-4" width="4" height="1"></canvas>
+    </div>
+
+    <div class="chart-container">
+        <canvas id="chart-5" width="4" height="1"></canvas>
+    </div>
+
+    <div class="chart-container">
+        <canvas id="chart-6" width="4" height="1"></canvas>
+    </div>
+
+    <div class="chart-container">
+        <canvas id="chart-7" width="4" height="1"></canvas>
+    </div>
+
+    <div class="chart-container">
+        <canvas id="chart-8" width="4" height="1"></canvas>
+    </div>
 
     <!-- include before closing <body> tag -->
     <script src="js/vendor.js"></script>
@@ -60,7 +85,7 @@
     </script>
 
     <script>
-        const labels = () => {
+        const years = () => {
             let array = [];
             for (let i=1961; i<=2019; i++) {
                 array.push(i);
@@ -68,58 +93,68 @@
             return array;
         }
 
-        const data = {
-            labels: labels(),
-            datasets: [
-                {
-                    label: 'Total Renewable Water Resources Per Capita (m3/inhab/year)',
-                    backgroundColor: 'rgb(255, 99, 132)',
-                    borderColor: 'rgb(255, 99, 132)',
-                    data: [%%DATA%%]
-                        // [
-                        //     16189.28386, 15958.29765, 15743.91919, 15546.44264,
-                        //     15365.46096, 15200.91358, 15051.12085, 14912.11951,
-                        //     14779.01807, 14648.23188, 14518.59655, 14390.22295,
-                        //     14262.55766, 14135.37197, 14008.50135, 13881.44905,
-                        //     13753.96456,  13626.4763, 13499.64461, 13373.92697,
-                        //     13249.23255, 13125.37763, 13002.57131, 12881.05705,
-                        //     12760.92405, 12641.95173, 12523.83216, 12406.40301,
-                        //     12289.47885, 12172.75995, 12057.07392, 11942.07043,
-                        //     11825.12551, 11702.96676, 11573.98045, 11437.19591,
-                        //     11294.97973,  11152.8905, 11017.84377, 10894.14681,
-                        //     10783.25302, 10682.98275, 10589.49347, 10497.52387,
-                        //     10403.61867, 10306.99431, 10209.29456, 10112.49243,
-                        //     10019.34112, 9931.670013, 9849.669871, 9772.519532,
-                        //     9699.730662, 9630.549315, 9564.373485, 9501.077493,
-                        //     9440.614927, 9382.558985, 9326.427223
-                        // ]
-                },
-                {
-                    label: 'Something else',
-                    backgroundColor: 'rgb(20, 20, 20)',
-                    borderColor: 'rgb(20, 20, 20)',
-                    data: [1, 2, 3]
-                }
-            ]
+        const data = (label, color, datastring) => {
+            let data_array = datastring.split(',');
+            let years_label = years();
+
+            if (label === "National Rainfall Index (mm/year)") {
+                years_label = years_label.splice(4);
+            }
+
+            return {
+                labels: years_label,
+                datasets: [
+                    {
+                        label: label,
+                        backgroundColor: color,
+                        borderColor: color,
+                        data: data_array
+                    }
+                ]
+            }
         };
 
-        const config = {
-            type: 'line',
-            data: data,
-            options: {
-                layout: {
-                    padding: {
-                        left: 200,
-                        right: 200
+        const config = (dataconfig) => {
+            return {
+                type: 'line',
+                data: dataconfig,
+                options: {
+                    layout: {
+                        padding: {
+                            left: 60,
+                            right: 60
+                        }
                     }
                 }
             }
         };
 
-        const myChart = new Chart(
-            document.getElementById('myChart'),
-            config
-        );
+
+        let data_1 = data('Dam capacity per capita (m3/inhab)', 'rgb(20, 20, 20)', '%%DATA_1%%');
+        let chart_1 = new Chart(document.getElementById('chart-1'), config(data_1));
+        chart_1.canvas.parentNode.style.height = '10px';
+
+        let data_2 = data('Dependency ratio (%)', 'rgb(66, 135, 245)', '%%DATA_2%%');
+        let chart_2 = new Chart(document.getElementById('chart-2'), config(data_2));
+
+        let data_3 = data('Long-term average annual precipitation in depth (mm/year)', 'rgb(235, 161, 52)', '%%DATA_3%%');
+        let chart_3 = new Chart(document.getElementById('chart-3'), config(data_3));
+
+        let data_4 = data('National Rainfall Index (mm/year)', 'rgb(50, 168, 82)', '%%DATA_4%%');
+        let chart_4 = new Chart(document.getElementById('chart-4'), config(data_4));
+
+        let data_5 = data('Total renewable groundwater (billion m3/year)', 'rgb(168, 50, 158)', '%%DATA_5%%');
+        let chart_5 = new Chart(document.getElementById('chart-5'), config(data_5));
+
+        let data_6 = data('Total renewable surface water (billion m3/year)', 'rgb(50, 140, 168)', '%%DATA_6%%');
+        let chart_6 = new Chart(document.getElementById('chart-6'), config(data_6));
+
+        let data_7 = data('Total renewable water resources (billion m3/year)', 'rgb(135, 52, 14)', '%%DATA_7%%');
+        let chart_7 = new Chart(document.getElementById('chart-7'), config(data_7));
+
+        let data_8 = data('Total Renewable Water Resources Per Capita (m3/inhab/year)', 'rgb(255, 99, 132)', '%%DATA_8%%');
+        let chart_8 = new Chart(document.getElementById('chart-8'), config(data_8));
+
     </script>
 </body>
 </html>
