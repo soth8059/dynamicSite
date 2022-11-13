@@ -111,6 +111,7 @@ app.get('/', (req, res) => {
 // GET request handler for home page '/' (redirect to desired route)
 app.get('/precipitation/:yr', (req, res) => {
     console.log(req.params.yr);
+
     fs.readFile(path.join(template_dir, 'precipitation.html'), (err, template) => {
         if (err) {
             res.writeHead(404, {'Content-Type': 'text/plain'});
@@ -121,6 +122,14 @@ app.get('/precipitation/:yr', (req, res) => {
             // modify `template` and send response
             // this will require a query to the SQL database
             let year = parseInt(req.params.yr);
+
+            if (year < 1965 || year > 2019) {
+                res.writeHead(404, {'Content-Type': 'text/plain'});
+                res.write('Error: No data for year ' + year);
+                res.end();
+                return;
+            }
+
             let values = 'SELECT variable_4.value as nri, variable_3.value as avg FROM variable_4 INNER JOIN variable_3 ON variable_4.year==variable_3.year WHERE variable_4.year==?';
             let unitNRI = 'SELECT unit, id from Variables WHERE name=="National Rainfall Index (NRI)"';
             let unitAVG = 'SELECT unit, id from Variables WHERE name=="Long-term average annual precipitation in depth"';
@@ -163,7 +172,7 @@ app.get('/precipitation/:yr', (req, res) => {
                         content = content.replace("%%MINUS%%", minus);
                         content = content.replace("%%PLUS%%", plus);
                         res.status(200).type('html').send(content);
-                        
+
                     });
                 });
             });
@@ -189,6 +198,14 @@ app.get('/capita/:yr', (req, res) => {
 
 
             let year = parseInt(req.params.yr);
+
+            if (year < 1961 || year > 2019) {
+                res.writeHead(404, {'Content-Type': 'text/plain'});
+                res.write('Error: No data for year ' + year);
+                res.end();
+                return;
+            }
+
             db.all(values, [year], (err, rows) => {
                 console.log(err);
                 console.log(rows);
@@ -258,7 +275,15 @@ app.get('/renewable/:yr', (req, res) => {
             let unitG = 'SELECT unit from Variables WHERE name=="Total renewable groundwater"';
             let unitS = 'SELECT unit, id from Variables WHERE name=="Total renewable surface water"';
             let unitT = 'SELECT unit, id from Variables WHERE name=="Total renewable water resources"';
+
             let year = parseInt(req.params.yr);
+            if (year < 1961 || year > 2019) {
+                res.writeHead(404, {'Content-Type': 'text/plain'});
+                res.write('Error: No data for year ' + year);
+                res.end();
+                return;
+            }
+
             db.all(values, [year], (err, rows) => {
                 console.log(err);
                 console.log(rows);
