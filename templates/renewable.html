@@ -22,13 +22,15 @@
     <p>The total renewable surface water in %%YEAR%% is %%SURFACEWATER_VALUE%%  %%SURFACEWATER_UNIT%%</p>
     <canvas id="surface-chart" width="4" height="1"></canvas>
 
-    <img src = "/images/%%SURFACEWATER_IMAGE%%.jpeg" alt = "Renewable Surface Water Picture"/>
+    <img src = "/images/%%WATER_IMAGE%%.jpeg" alt = "Renewable Ground vs Surface Water Picture" width="300" height="200"/>
 
     <h2 class="three-title">Total Renewable Water Resources</h2>
     <p><strong>Definition: </strong> The sum of internal renewable water resources (IRWR) and external renewable water resources (ERWR). It corresponds to the maximum theoretical yearly amount of water available for a country at a given moment.</p>
     <p>[Total renewable water resources] = [Total renewable surface water] + [Total renewable groundwater] - [Overlap between surface water and groundwater].</p>
     <p>Total renewable water resources in %%YEAR%% is %%WATERRESOURCES_VALUE%% %%WATERRESOURCES_UNIT%%</p>
     <canvas id="water-chart" width="4" height="1"></canvas>
+
+    <img src = "/images/%%WATERRESOURCES_IMAGE%%.jpeg" alt = "Total Renewable Water Picture" width="300" height="200"/>
 
     <script>
       const groundwater = document.getElementById('groundwater-chart').getContext('2d');
@@ -109,8 +111,6 @@
           }
       });
     </script>
-
-    <img src = "/images/%%WATERRESOURCES_IMAGE%%.jpeg" alt = "Total Renewable Water Picture"/>
 
     <div class="three-buttons">
       <a href="/renewable/%%MINUS%%"><button>Previous</button></a>

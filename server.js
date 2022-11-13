@@ -227,7 +227,7 @@ app.get('/renewable/:yr', (req, res) => {
         // modify `template` and send response
         // this will require a query to the SQL database
         let values = 'SELECT variable_5.value as ground, variable_6.value as surface, variable_7.value as total FROM variable_5 INNER JOIN variable_6 ON variable_5.year==variable_6.year INNER JOIN variable_7 on variable_6.year==variable_7.year WHERE variable_5.year==?';
-        let unitG = 'SELECT unit, id from Variables WHERE name=="Total renewable groundwater"';
+        let unitG = 'SELECT unit from Variables WHERE name=="Total renewable groundwater"';
         let unitS = 'SELECT unit, id from Variables WHERE name=="Total renewable surface water"';
         let unitT = 'SELECT unit, id from Variables WHERE name=="Total renewable water resources"';
         let year = parseInt(req.params.yr);
@@ -250,14 +250,13 @@ app.get('/renewable/:yr', (req, res) => {
                 console.log(rows);
 
                 content = content.replace("%%GROUNDWATER_UNIT%%", rows[0].unit);
-                content = content.replace("%%GROUNDWATER_IMAGE%%", rows[0].id);
 
                 db.all(unitS, (err, rows) => {
                     console.log(err);
                     console.log(rows);
 
                     content = content.replace("%%SURFACEWATER_UNIT%%", rows[0].unit);
-                    content = content.replace("%%SURFACEWATER_IMAGE%%", rows[0].id);
+                    content = content.replace("%%WATER_IMAGE%%", rows[0].id);
 
                     db.all(unitT, (err, rows) => {
                         console.log(err);
