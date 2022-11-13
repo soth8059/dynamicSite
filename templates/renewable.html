@@ -6,6 +6,7 @@
     <title>US Renewable Resources</title>
     <link rel="stylesheet" href="/css/water.css">
     <link rel="stylesheet" href="/css/template.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body>
     <a href="/">Home Page</a>
@@ -14,12 +15,12 @@
     <h2 class="three-title">Total Renewable Groundwater</h2>
     <p><strong>Definition: </strong> This is the sum of the total internal and external renewable groundwater resources.</p>
     <p>Total renewable groundwater in %%YEAR%% is %%GROUNDWATER_VALUE%% %%GROUNDWATER_UNIT%%</p>
-
-    <img src = "/images/%%GROUNDWATER_IMAGE%%.png" alt = "Renewable Groundwater Picture"/>
+    <canvas id="groundwater-chart" width="4" height="1"></canvas>
 
     <h2 class="three-title">Total Renewable Surface Water</h2>
     <p><strong>Definition: </strong> This is the sum of the total internal and external renewable surface water resources. Surface water is all water naturally open to the atmosphere, concerning rivers, lakes, reservoirs, ponds, streams, impoundments, seas, estuaries and wetlands.</p>
     <p>The total renewable surface water in %%YEAR%% is %%SURFACEWATER_VALUE%%  %%SURFACEWATER_UNIT%%</p>
+    <canvas id="surface-chart" width="4" height="1"></canvas>
 
     <img src = "/images/%%SURFACEWATER_IMAGE%%.jpeg" alt = "Renewable Surface Water Picture"/>
 
@@ -27,12 +28,93 @@
     <p><strong>Definition: </strong> The sum of internal renewable water resources (IRWR) and external renewable water resources (ERWR). It corresponds to the maximum theoretical yearly amount of water available for a country at a given moment.</p>
     <p>[Total renewable water resources] = [Total renewable surface water] + [Total renewable groundwater] - [Overlap between surface water and groundwater].</p>
     <p>Total renewable water resources in %%YEAR%% is %%WATERRESOURCES_VALUE%% %%WATERRESOURCES_UNIT%%</p>
+    <canvas id="water-chart" width="4" height="1"></canvas>
+
+    <script>
+      const groundwater = document.getElementById('groundwater-chart').getContext('2d');
+      const groundwater_chart = new Chart(groundwater, {
+          type: 'bar',
+          data: {
+              labels: ['Total Renewable Groundwater (billion m3/year)'],
+              datasets: [{
+                  label: 'Total Renewable Groundwater (billion m3/year)',
+                  data: [%%GROUNDWATER_VALUE%%],
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255, 99, 132, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+          },
+          options: {
+              scales: {
+                  y: {
+                      beginAtZero: true
+                  }
+              }
+          }
+      });
+
+      const surface = document.getElementById('surface-chart').getContext('2d');
+      const surface_chart = new Chart(surface, {
+          type: 'bar',
+          data: {
+              labels: ['Total Renewable Surface Water (billion m3/year)'],
+              datasets: [{
+                  label: 'Total Renewable Surface Water (billion m3/year)',
+                  data: [%%SURFACEWATER_VALUE%%],
+                  backgroundColor: [
+                      'rgba(54, 162, 235, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(54, 162, 235, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+          },
+          options: {
+              scales: {
+                  y: {
+                      beginAtZero: true
+                  }
+              }
+          }
+      });
+
+      const water = document.getElementById('water-chart').getContext('2d');
+      const water_chart = new Chart(water, {
+          type: 'bar',
+          data: {
+              labels: ['Total Renewable Water Resources (m3/year)'],
+              datasets: [{
+                  label: 'Total Renewable Water Resources (m3/year)',
+                  data: [%%WATERRESOURCES_VALUE%%],
+                  backgroundColor: [
+                      'rgba(75, 192, 192, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(75, 192, 192, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+          },
+          options: {
+              scales: {
+                  y: {
+                      beginAtZero: true
+                  }
+              }
+          }
+      });
+    </script>
 
     <img src = "/images/%%WATERRESOURCES_IMAGE%%.jpeg" alt = "Total Renewable Water Picture"/>
 
     <div class="three-buttons">
-      <a href="/precipitation/%%MINUS%%"><button>Previous</button></a>
-      <a href="/precipitation/%%PLUS%%"><button>Next</button></a>
+      <a href="/renewable/%%MINUS%%"><button>Previous</button></a>
+      <a href="/renewable/%%PLUS%%"><button>Next</button></a>
     </div>
   </body>
 </html>

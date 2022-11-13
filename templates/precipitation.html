@@ -4,8 +4,9 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>US Precipitation</title>
-	<link rel="stylesheet" href="/css/water.css">
-	<link rel="stylesheet" href="/css/template.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="/css/water.css">
+    <link rel="stylesheet" href="/css/template.css">
   </head>
   <body>
     <a id="home" href="/">Home Page</a>
@@ -23,9 +24,49 @@
 
     <img src = "/images/%%AVGTEMP_IMAGE%%.jpeg" alt = "Long-term Average Annual Precipitation Picture"/>
 
+    <canvas id="myChart" width="4" height="1"></canvas>
+
     <div class="one-buttons" >
       <a href="/precipitation/%%MINUS%%"><button>Previous</button></a>
       <a href="/precipitation/%%PLUS%%"><button>Next</button></a>
     </div>
+
+    <script>
+      const ctx = document.getElementById('myChart').getContext('2d');
+      const myChart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+              labels: ['NRI', 'Annual Precipitation'],
+              datasets: [{
+                  label: '(mm/year)',
+                  data: [%%NRI_VALUE%%, %%AVGTEMP_VALUE%%],
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255, 99, 132, 1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+          },
+          options: {
+              scales: {
+                  y: {
+                      beginAtZero: true
+                  }
+              }
+          }
+      });
+      </script>
   </body>
 </html>
