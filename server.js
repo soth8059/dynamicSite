@@ -119,6 +119,8 @@ app.get('/precipitation/:yr', (req, res) => {
             content = content.replace("%%YEAR%%", year);
             content = content.replace("%%YEAR%%", year);
             content = content.replace("%%NRI_VALUE%%", rows[0].nri);
+            content = content.replace("%%NRI_VALUE%%", rows[0].nri);
+            content = content.replace("%%AVGTEMP_VALUE%%", rows[0].avg);
             content = content.replace("%%AVGTEMP_VALUE%%", rows[0].avg);
 
             db.all(unitNRI, (err, rows) => {
@@ -167,11 +169,14 @@ app.get('/capita/:yr', (req, res) => {
             console.log(rows);
             let content = template.toString().replace("%%YEAR%%", year);
             content = content.replace("%%YEAR%%", year);
-            content = content.replace("%%DAM_VALUE%%", values.dam);
+            content = content.replace("%%DAM_VALUE%%", rows[0].dam);
+            content = content.replace("%%DAM_VALUE%%", rows[0].dam);
             content = content.replace("%%YEAR%%", year);
-            content = content.replace("%%DEPENDRATIO_VALUE%%", values.ratio);
+            content = content.replace("%%DEPENDRATIO_VALUE%%", rows[0].ratio);
+            content = content.replace("%%DEPENDRATIO_VALUE%%", rows[0].ratio);
             content = content.replace("%%YEAR%%", year);
-            content = content.replace("%%WATER_CAPITA_VALUE%%", values.renewable);
+            content = content.replace("%%WATER_CAPITA_VALUE%%", rows[0].renewable);
+            content = content.replace("%%WATER_CAPITA_VALUE%%", rows[0].renewable);
 
             db.all(unitDAM, (err, rows) => {
                 console.log(err);
@@ -225,9 +230,12 @@ app.get('/renewable/:yr', (req, res) => {
             let content = template.toString().replace("%%YEAR%%", year);
             content = content.replace("%%YEAR%%", year);
             content = content.replace("%%GROUNDWATER_VALUE%%", rows[0].ground);
+            content = content.replace("%%GROUNDWATER_VALUE%%", rows[0].ground);
             content = content.replace("%%YEAR%%", year);
             content = content.replace("%%SURFACEWATER_VALUE%%", rows[0].surface);
+            content = content.replace("%%SURFACEWATER_VALUE%%", rows[0].surface);
             content = content.replace("%%YEAR%%", year);
+            content = content.replace("%%WATERRESOURCES_VALUE%%", rows[0].total);
             content = content.replace("%%WATERRESOURCES_VALUE%%", rows[0].total);
 
             db.all(unitG, (err, rows) => {

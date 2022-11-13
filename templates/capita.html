@@ -6,6 +6,7 @@
     <title>US Per Capita Resources</title>
     <link rel="stylesheet" href="/css/water.css">
     <link rel="stylesheet" href="/css/template.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body>
     <a href="/">Home Page</a>
@@ -14,18 +15,102 @@
     <h2 class="two-title">Dam Capacity Per Capita</h2>
     <p><strong>Definition: </strong> The water storage capacity from dams for each person.</p>
     <p>Dam capacity per capita in %%YEAR%% is %%DAM_VALUE%% %%DAM_UNIT%%</p>
+    <canvas id="dam-capacity-chart" width="4" height="1"></canvas>
 
     <h2 class="two-title">Dependency Ratio</h2>
     <p><strong>Definition: </strong> Indicator expressing the percent of total renewable water resources originating outside the country. This indicator may theoretically vary between 0% and 100%. A country with a dependency ratio equal to 0% does not receive any water from neighbouring countries. A country with a dependency ratio equal to 100% receives all its renewable water from upstream countries, without producing any of its own. This indicator does not consider the possible allocation of water to downstream countries.</p>
     <p>Dependency ratio in %%YEAR%% is %%DEPENDRATIO_VALUE%% %%DEPENDRATIO_UNIT%%</p>
+    <canvas id="dependency-ratio-chart" width="4" height="1"></canvas>
 
     <h2 class="two-title">Total Renewable Water Resources Per Capita</h2>
     <p><strong>Definition: </strong> Total annual renewable water resources per inhabitant.</p>
     <p>Renewable water resources per capita in %%YEAR%% is %%WATER_CAPITA_VALUE%% %%WATER_CAPITA_UNIT%%</p>
+    <canvas id="water-capita-chart" width="4" height="1"></canvas>
+
+
+    <script>
+      const dam = document.getElementById('dam-capacity-chart').getContext('2d');
+      const dam_chart = new Chart(dam, {
+          type: 'bar',
+          data: {
+              labels: ['Dam Capacity Per Capita (m3/inhab)'],
+              datasets: [{
+                  label: 'Dam Capacity Per Capita (m3/inhab)',
+                  data: [%%DAM_VALUE%%],
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255, 99, 132, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+          },
+          options: {
+              scales: {
+                  y: {
+                      beginAtZero: true
+                  }
+              }
+          }
+      });
+
+      const dependency = document.getElementById('dependency-ratio-chart').getContext('2d');
+      const dependency_chart = new Chart(dependency, {
+          type: 'bar',
+          data: {
+              labels: ['Dependency Ratio (%)'],
+              datasets: [{
+                  label: 'Dependency Ratio (%)',
+                  data: [%%DEPENDRATIO_VALUE%%],
+                  backgroundColor: [
+                      'rgba(54, 162, 235, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(54, 162, 235, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+          },
+          options: {
+              scales: {
+                  y: {
+                      beginAtZero: true
+                  }
+              }
+          }
+      });
+
+      const water = document.getElementById('water-capita-chart').getContext('2d');
+      const water_chart = new Chart(water, {
+          type: 'bar',
+          data: {
+              labels: ['Total Renewable Water Resources Per Capita (m3/inhab/year)'],
+              datasets: [{
+                  label: 'Total Renewable Water Resources Per Capita (m3/inhab/year)',
+                  data: [%%WATER_CAPITA_VALUE%%],
+                  backgroundColor: [
+                      'rgba(75, 192, 192, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(75, 192, 192, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+          },
+          options: {
+              scales: {
+                  y: {
+                      beginAtZero: true
+                  }
+              }
+          }
+      });
+    </script>
 
     <div class="two-buttons">
-      <a href="/precipitation/%%MINUS%%"><button>Previous</button></a>
-      <a href="/precipitation/%%PLUS%%"><button>Next</button></a>
+      <a href="/capita/%%MINUS%%"><button>Previous</button></a>
+      <a href="/capita/%%PLUS%%"><button>Next</button></a>
     </div>
   </body>
 </html>
