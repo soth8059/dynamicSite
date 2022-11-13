@@ -19,7 +19,7 @@
     "main": "server.js",
     "repository": {
         "type": "git",
-        "url": ""
+        "url": "https://github.com/soth8059/dynamicSite"
     },
     "dependencies": {
         "chart.js": "^3.9.1",
